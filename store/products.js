@@ -32,4 +32,23 @@ export const state = () => ({
     { id: 29, title: 'Samsung Galaxy Note 3', thumbnail: 'samsung-galaxy-note-3.png', price: 4100000, categoryId: 1 },
     { id: 30, title: 'Sharp 32" LED ', thumbnail: 'sharp-32-led-32LE265i.png', price: 2300000, categoryId: 3 },
   ],
+  categories: [
+    { id: false, title: 'All' },
+    { id: 1, title: 'Smartphone' },
+    { id: 2, title: 'Camera' },
+    { id: 3, title: 'Televisi' },
+  ],
+  categoryId: 0,
 })
+
+export const mutations = {
+  updateCategoryId(state, categoryId) {
+    state.categoryId = categoryId
+  }
+}
+
+export const actions = {
+  updateCategoryId({ commit }, categoryId) {
+    commit('updateCategoryId', categoryId)
+  }
+}

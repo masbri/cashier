@@ -15,9 +15,9 @@
             </v-btn>
           </template>
           <v-list>
-            <v-list-item-group v-model="categoryId">
+            <v-list-item-group>
               <v-list-item v-for="(category, index) in categories" :key="index" :value="category.id"
-                :disabled="category.id == categoryId">
+                :disabled="category.id == categoryId" @change="updateCategoryId(category.id)">
                 <v-list-item-title>
                   {{ category.title }}
                 </v-list-item-title>
@@ -29,7 +29,7 @@
     </v-row>
     <v-row>
       <v-col v-for="(product, index) in filteredProducts" :key="index" cols="2">
-        <v-card :title="product.title" :ripple="true">
+        <v-card @click="addToCart(product.id)" :title="product.title" :ripple="true">
           <v-card-actions>
             <v-img :src="require(`@/assets/images/products/${product.thumbnail}`)"></v-img>
           </v-card-actions>
@@ -44,17 +44,11 @@
 
 <script>
 // import { Ripple } from 'vuetify/lib';
+import { mapState, mapMutations, mapActions } from 'vuex'
 
 export default ({
   data() {
     return {
-      categoryId: false,
-      categories: [
-        { id: false, title: 'All' },
-        { id: 1, title: 'Smartphone' },
-        { id: 2, title: 'Camera' },
-        { id: 3, title: 'Televisi' },
-      ],
       search: null,
       isLoading: false,
       itemsSearch: [],
@@ -62,6 +56,10 @@ export default ({
     }
   },
   methods: {
+    ...mapActions({
+      updateCategoryId: 'products/updateCategoryId',
+      addToCart: 'carts/addToCart'
+    }),
     resetSearchCategory() {
       this.categoryId = false
     }
@@ -78,7 +76,9 @@ export default ({
       return this.products
     },
     ...mapState('products', {
-      products: 'products'
+      products: 'products',
+      categories: 'categories',
+      categoryId: 'categoryId'
     })
   },
   watch: {
