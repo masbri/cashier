@@ -1,5 +1,17 @@
 export const state = () => ({
   items: [],
+  additionals: [
+    {
+      title: 'Tax',
+      mode: 'percentage',
+      value: 10,
+    },
+    {
+      title: 'Service Charge',
+      mode: 'fix',
+      value: 50000,
+    }
+  ]
 })
 
 export const getters = {
@@ -22,6 +34,9 @@ export const getters = {
       return total + (item.price * item.quantity)
     }, 0)
   },
+  calculatePercentage: (state, getters) => (value) => {
+    return (getters.subTotal * value) / 100
+  }
 }
 
 export const mutations = {
